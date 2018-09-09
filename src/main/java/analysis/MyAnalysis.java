@@ -3,7 +3,10 @@ package analysis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.github.javaparser.JavaParser;
@@ -30,13 +33,17 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeS
 /**
  * Some code that uses JavaSymbolSolver.
  */
-public class MyAnalysis 
+@SuppressWarnings("rawtypes")
+public class MyAnalysis extends VoidVisitorAdapter
 {
 	
-	static List<String> injectAnnotations = Arrays.asList( "Inject", "Autowired"  );
+	private List<String> injectAnnotations = Arrays.asList( "Inject", "Autowired" );
+	
+	private Map<String,Integer> map = new HashMap<String,Integer>();
 
     @SuppressWarnings("unchecked")
-	public static void main(String[] args) {
+	public void execute(String[] args) 
+    {
         // Set up a minimal type solver that only looks at the classes used to run this sample.
         CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver();
         combinedTypeSolver.add(new ReflectionTypeSolver());
@@ -53,7 +60,9 @@ public class MyAnalysis
         							+ "@Autowired "
         							+ "AnotherBusiness business1; "
         							+ "public void execute() { "
-        							+ "business.execute(); } "
+        							+ "business.execute(); "
+        							+ "business1.execute(); "
+        							+ " } "
         							+ "}";
         
         //ClassOrInterfaceDeclaration classDeclaration = new ClassOrInterfaceDeclaration();
@@ -110,85 +119,29 @@ public class MyAnalysis
         		injectedVariables.add( f.getVariable(0).toString() );
         });
         
+        //fazer a classe myanalysis estender voidvisitoradapter e criar map com os atributos que sao injetados
+        //new MethodVisitor().visit(cu, injectedVariables);
         
-        new MethodVisitor().visit(cu, injectedVariables);
-    }
-    
-    //https://stackoverflow.com/questions/32622879/extract-methods-calls-from-java-code
-    @SuppressWarnings("rawtypes")
-	private static class MethodVisitor extends VoidVisitorAdapter
-    {
-        @SuppressWarnings("unchecked")
-		@Override
-        public void visit(MethodCallExpr methodCall, Object arg)
+        //Init map
+        for (String variable : injectedVariables)
         {
-            //System.out.print("Method call: " + methodCall.getName() + "\n");
-            List<Expression> args = methodCall.getArguments();
-            if (args != null)
-            {
-            	if (args instanceof List)
-            	{
-            		int numberOfAppearances = 
-            				handleInjectedVariables( methodCall, (List<String>) arg );
-            		System.out.println( methodCall.getName() + " \n" );
-            		System.out.println(numberOfAppearances);
-            	}
-            	else
-            	{
-            		handleExpressions(args);
-            	}
-            	
-            }
-                
+        	map.put(variable, 0);
         }
         
-        private int handleInjectedVariables(MethodCallExpr methodCall, List<String> variables)
-        {
-        	int i = 0;
-        	//Optional<Node> node = methodCall.getParentNode();
-        	String nodeName = methodCall.getChildNodes().get(0).toString();
-        	
-        	//System.out.println(node.get().getParentNode().get().toString());
-        	
-        	/*
-        	System.out.println( methodCall.getName() + " \n" 
-        						//+ methodCall.getNameAsString() + " \n"
-        						//+ methodCall.findRootNode().toString() + " "
-        						+ methodCall.getParentNodeForChildren().toString() + " \n"
-        						//+ methodCall.get
-        					   );
-        	*/
-        	
-        	//System.out.println(nodeName);
-        	
-            for (String variable : variables)
-            {
-            	if(variable.equals(nodeName))
-            	{
-            		i++;
-            	}
-                
-            }
-            return i;
+        visit(cu, injectedVariables);
+        
+        //Iterate through map
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            //it.remove(); // avoids a ConcurrentModificationException
         }
 
-        private void handleExpressions(List<Expression> expressions)
-        {
-            for (Expression expr : expressions)
-            {
-                if (expr instanceof MethodCallExpr)
-                    visit((MethodCallExpr) expr, null);
-                else if (expr instanceof BinaryExpr)
-                {
-                    BinaryExpr binExpr = (BinaryExpr)expr;
-                    handleExpressions(Arrays.asList(binExpr.getLeft(), binExpr.getRight()));
-                }
-            }
-        }
+
     }
-
     
-    private static boolean containsInjectionAnnotation(@SuppressWarnings("rawtypes") NodeWithAnnotations node)
+    private boolean containsInjectionAnnotation(NodeWithAnnotations node)
     {
     	List<String> annotations = new ArrayList<String>();
     	
@@ -197,11 +150,86 @@ public class MyAnalysis
     	
     	nodeAnnotations.forEach(action -> { annotations.add( action.getNameAsString() ); });
     	
-    	annotations.retainAll(injectAnnotations);
+    	annotations.retainAll(getInjectAnnotations());
     	
     	if (annotations.size() > 0) {
     		return true;
     	}
     	return false;
     }
+
+    @SuppressWarnings("unchecked")
+	@Override
+    public void visit(MethodCallExpr methodCall, Object arg)
+    {
+        //System.out.print("Method call: " + methodCall.getName() + "\n");
+        List<Expression> args = methodCall.getArguments();
+        if (args != null)
+        {
+        	if (args instanceof List)
+        	{
+        		Integer numberOfAppearances = 
+        				handleInjectedVariables( methodCall, (List<String>) arg );
+        		//System.out.println( methodCall.getName() + " \n" );
+        		//System.out.println(numberOfAppearances);
+        		
+        		String nodeName = methodCall.getChildNodes().get(0).toString();
+        		
+        		map.put(nodeName, numberOfAppearances);
+        	}
+        	else
+        	{
+        		//handleExpressions(args);
+        	}
+        	
+        }
+            
+    }
+    
+    private int handleInjectedVariables(MethodCallExpr methodCall, List<String> variables)
+    {
+    	int i = 0;
+    	//Optional<Node> node = methodCall.getParentNode();
+    	String nodeName = methodCall.getChildNodes().get(0).toString();
+    	
+    	//System.out.println(node.get().getParentNode().get().toString());
+    	
+    	/*
+    	System.out.println( methodCall.getName() + " \n" 
+    						//+ methodCall.getNameAsString() + " \n"
+    						//+ methodCall.findRootNode().toString() + " "
+    						+ methodCall.getParentNodeForChildren().toString() + " \n"
+    						//+ methodCall.get
+    					   );
+    	*/
+    	
+    	//System.out.println(nodeName);
+    	
+        for (String variable : variables)
+        {
+        	if(variable.equals(nodeName))
+        	{
+        		i++;
+        	}
+            
+        }
+        return i;
+    }
+    
+	public List<String> getInjectAnnotations() {
+		return injectAnnotations;
+	}
+
+
+	public void setInjectAnnotations(List<String> injectAnnotations) {
+		this.injectAnnotations = injectAnnotations;
+	}
+
+	public Map<String,Integer> getMap() {
+		return map;
+	}
+
+	public void setMap(Map<String,Integer> map) {
+		this.map = map;
+	}
 }
