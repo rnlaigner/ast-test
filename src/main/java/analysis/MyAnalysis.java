@@ -7,28 +7,22 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.AnnotationMemberDeclaration;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
-import com.github.javaparser.resolution.declarations.ResolvedAnnotationDeclaration;
-import com.github.javaparser.resolution.types.ResolvedType;
 import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
+
+import identification.FieldDeclarationInjectionIdentificator;
+import practices.BadPracticeOne;
 
 /**
  * Some code that uses JavaSymbolSolver.
@@ -52,7 +46,7 @@ public class MyAnalysis extends VoidVisitorAdapter
         JavaSymbolSolver symbolSolver = new JavaSymbolSolver(combinedTypeSolver);
         JavaParser.getStaticConfiguration().setSymbolResolver(symbolSolver);
         
-        String exampleClass = "class X { int x() { return 1 + 1.0 - 5; } }";
+        //String exampleClass = "class X { int x() { return 1 + 1.0 - 5; } }";
         
         String exampleClass1 = "class BusinessExample { "
         							+ "@Autowired "
@@ -66,11 +60,12 @@ public class MyAnalysis extends VoidVisitorAdapter
         							+ "}";
         
         //ClassOrInterfaceDeclaration classDeclaration = new ClassOrInterfaceDeclaration();
-
+        
+        /*
         String exampleClass2 = "class BusinessExample { private "
 				+ "@Autowired "
 				+ "AnotherBusiness business; }"; 
-        
+        */
         // Parse some code
         CompilationUnit cu;
         
@@ -83,15 +78,21 @@ public class MyAnalysis extends VoidVisitorAdapter
         	System.out.println("Excecao");
         	return;
         }
+        
+
+        
+        BadPracticeOne bdOne = new BadPracticeOne(cu);
+        
+        bdOne.process();
 
         // Find all the calculations with two sides:
         cu.findAll(AnnotationExpr.class).forEach(be -> {
             // Find out what type it has:
             //ResolvedType resolvedType = be.calculateResolvedType();
         	
-        	AnnotationExpr resolvedType = be.asAnnotationExpr();
+        	//AnnotationExpr resolvedType = be.asAnnotationExpr();
         	
-        	Optional<Node> parent = be.getParentNode();
+        	//Optional<Node> parent = be.getParentNode();
         	
         	//parent.get().findAll(FieldDeclaration.class).forEach(ac -> { ac.asFieldDeclaration().toString(); });
         	
