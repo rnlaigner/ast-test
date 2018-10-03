@@ -21,7 +21,6 @@ import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
-import identification.FieldDeclarationInjectionIdentificator;
 import practices.BadPracticeOne;
 
 /**
@@ -50,9 +49,14 @@ public class MyAnalysis extends VoidVisitorAdapter
         
         String exampleClass1 = "class BusinessExample { "
         							+ "@Autowired "
-        							+ "ABusiness business; "
+        							+ "private ABusiness business; "
         							+ "@Autowired "
-        							+ "AnotherBusiness business1; "
+        							+ "private AnotherBusiness business1; "
+        							+ "private AThirdBusiness business2;"
+        							+ "@Autowired "
+        							+ "public BusinessExample( AThirdBusiness business2 ){"
+        							+ "	this.business2 = business2;"
+        							+ "}"
         							+ "public void execute() { "
         							+ "business.execute(); "
         							+ "business1.execute(); "
@@ -76,6 +80,7 @@ public class MyAnalysis extends VoidVisitorAdapter
         catch(Exception e)
         {
         	System.out.println("Excecao");
+        	System.out.println(e.getMessage());
         	return;
         }
         

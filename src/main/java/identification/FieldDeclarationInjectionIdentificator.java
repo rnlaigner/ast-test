@@ -9,7 +9,6 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 
 import model.Element;
-import model.InjectionAnnotation;
 
 public class FieldDeclarationInjectionIdentificator extends AbstractInjectionIdentificator {
 
@@ -64,7 +63,7 @@ public class FieldDeclarationInjectionIdentificator extends AbstractInjectionIde
 				elem.setName(variable.getName().toString());
 				
 				try {
-					elem.setAnnotation(getAnnotation(annotation));
+					elem.setAnnotation(getInjectionAnnotationFromString(annotation));
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -76,16 +75,6 @@ public class FieldDeclarationInjectionIdentificator extends AbstractInjectionIde
 		
 		
 		return elements;
-		
-	}
-	
-	private InjectionAnnotation getAnnotation(String annotation) throws Exception {
-		
-			if(annotation.equals( InjectionAnnotation.AUTOWIRED.getValue().toString() ) )
-					return InjectionAnnotation.AUTOWIRED;
-			if(annotation.equals( InjectionAnnotation.INJECT.getValue().toString() ) )
-					return InjectionAnnotation.INJECT;
-			throw new Exception("Errado!");
 		
 	}
 

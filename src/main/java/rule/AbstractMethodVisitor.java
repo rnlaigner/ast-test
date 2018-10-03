@@ -1,7 +1,5 @@
 package rule;
 
-import java.util.List;
-
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
@@ -17,24 +15,26 @@ public abstract class AbstractMethodVisitor extends AbstractRule {
 		methodVisitor = new MethodVisitor();
 	}
 	
-	protected void visit(CompilationUnit cu, List<Element> elements) {
-		methodVisitor.visit(cu, elements);
+	protected void visit(CompilationUnit cu, Element element) {
+		methodVisitor.visit(cu, element);
 	}
 	
-	protected abstract void visitImpl(MethodCallExpr methodCall, List<Element> arg);
+	protected abstract void visitImpl(MethodCallExpr methodCall, Element arg);
 	
-	private class MethodVisitor extends VoidVisitorAdapter<List<Element>> {
+	private class MethodVisitor extends VoidVisitorAdapter<Element> {
 		
 		
 		@Override
-	    public void visit(MethodCallExpr methodCall, List<Element> arg)
+	    public void visit(MethodCallExpr methodCall, Element arg)
 	    {
 	        visitImpl(methodCall, arg);
 	    }
 		
 	}
-	
 
-	
+	protected boolean doesItAppear(String nodeName, Element element)
+    {
+    	return element.getName().equals(nodeName);
+    }
 	
 }

@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.github.javaparser.ast.CompilationUnit;
 
+import identification.ConstructorInjectionIdentificator;
 import identification.FieldDeclarationInjectionIdentificator;
 import model.Element;
+import model.ElementResult;
 import rule.IsNonUsedInjection;
 
 public class BadPracticeOne extends AbstractPractice {
@@ -22,12 +24,23 @@ public class BadPracticeOne extends AbstractPractice {
 	public void process() {
 		
 		/* identifica elementos que bad practice pode se aplicar */
-        FieldDeclarationInjectionIdentificator fdii = new FieldDeclarationInjectionIdentificator();
-        List<Element> elements = fdii.identify(cu);
+        FieldDeclarationInjectionIdentificator fieldId = new FieldDeclarationInjectionIdentificator();
+        
+        ConstructorInjectionIdentificator constructorId = new ConstructorInjectionIdentificator();
+        
+        List<Element> elements = fieldId.identify(cu);
+        
+        elements.addAll(constructorId.identify(cu));
         //Faltam outros elementos
         
-        rule.processRule(cu, elements);
+        for (Element elem : elements) {
+        	ElementResult result = rule.processRule(cu, elem);
         	
+        	
+        	
+        }
+        
+        
 		
 	}
 	

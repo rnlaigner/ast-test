@@ -13,6 +13,16 @@ public abstract class AbstractInjectionIdentificator {
 		return InjectionAnnotation.AUTOWIRED.getValue().toString() + "|" + InjectionAnnotation.INJECT.getValue().toString();
 	}
 	
+	protected InjectionAnnotation getInjectionAnnotationFromString(String annotation) throws Exception {
+		
+		if(annotation.equals( InjectionAnnotation.AUTOWIRED.getValue().toString() ) )
+				return InjectionAnnotation.AUTOWIRED;
+		if(annotation.equals( InjectionAnnotation.INJECT.getValue().toString() ) )
+				return InjectionAnnotation.INJECT;
+		throw new Exception("Errado!");
+	
+	}
+	
 	public abstract List<Element> identify(CompilationUnit cu);
 
 }

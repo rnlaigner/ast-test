@@ -1,10 +1,9 @@
 package rule;
 
-import java.util.List;
-
 import com.github.javaparser.ast.CompilationUnit;
 
 import model.Element;
+import model.ElementResult;
 
 public abstract class AbstractRule {
 
@@ -28,6 +27,6 @@ public abstract class AbstractRule {
 		this.description = description;
 	}
 	
-	protected abstract boolean processRule(CompilationUnit cu, List<Element> elements);
+	protected abstract ElementResult processRule(CompilationUnit cu, Element element);
 	
 }
