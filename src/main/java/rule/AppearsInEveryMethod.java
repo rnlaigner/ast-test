@@ -1,11 +1,6 @@
 package rule;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 
 import model.Element;
@@ -13,35 +8,37 @@ import model.ElementResult;
 
 public class AppearsInEveryMethod extends AbstractMethodVisitor {
 
-	private Map<String,Integer> map = new HashMap<String,Integer>();
+	private Integer numberOfAppearances = 0;
+	private Integer numberOfMethods = 0;
 
 	@Override
-	protected ElementResult processRule(CompilationUnit cu, Element elements) {
+	protected ElementResult processRule(CompilationUnit cu, Element element) {
 		
-		 return new ElementResult();
+		visit(cu,element);
+		
+		ElementResult result = new ElementResult();
+		
+		result.setElement(element);
+		
+		result.setResult(false);
+		if(numberOfAppearances == numberOfMethods) result.setResult(true);
+		
+        return result;
 	}
 	
 	
 	@Override
 	protected void visitImpl(MethodCallExpr methodCall, Element arg) {
-        	String nodeName = methodCall.getChildNodes().get(0).toString();
-        	
-    		Boolean itDoesAppear = 
-    				doesItAppear( nodeName, arg );
-    		
-    		int plusNumber = 0;
-    		
-    		if (itDoesAppear) plusNumber++;
-    		
-    		Integer oldNumber = map.get(nodeName);
-    		
-    		if (oldNumber == null) {
-    			oldNumber = 0;
-    		}
-    		
-    		int newNumber = oldNumber + plusNumber;
-    		
-    		map.put(nodeName, newNumber);
+		
+    	String nodeName = getNodeName(methodCall);
+
+    	numberOfMethods++;
+    	
+		Boolean itDoesAppear = doesItAppear( nodeName, arg );
+		
+		if(itDoesAppear) {
+			numberOfAppearances++;
+		}
 	}
 	
 	

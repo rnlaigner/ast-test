@@ -6,6 +6,7 @@ import com.github.javaparser.ast.CompilationUnit;
 
 import identification.ConstructorInjectionIdentificator;
 import identification.FieldDeclarationInjectionIdentificator;
+import identification.MethodInjectionIdentificator;
 import model.Element;
 import model.ElementResult;
 import rule.IsNonUsedInjection;
@@ -25,13 +26,12 @@ public class BadPracticeOne extends AbstractPractice {
 		
 		/* identifica elementos que bad practice pode se aplicar */
         FieldDeclarationInjectionIdentificator fieldId = new FieldDeclarationInjectionIdentificator();
-        
         ConstructorInjectionIdentificator constructorId = new ConstructorInjectionIdentificator();
+        MethodInjectionIdentificator methodId = new MethodInjectionIdentificator();
         
         List<Element> elements = fieldId.identify(cu);
-        
         elements.addAll(constructorId.identify(cu));
-        //Faltam outros elementos
+        elements.addAll(methodId.identify(cu));
         
         for (Element elem : elements) {
         	ElementResult result = rule.processRule(cu, elem);

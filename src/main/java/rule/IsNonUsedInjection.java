@@ -7,18 +7,33 @@ import model.Element;
 import model.ElementResult;
 
 public class IsNonUsedInjection extends AbstractMethodVisitor {
+	
+	Integer numberOfAppearances = 0;
 
 	@Override
 	public ElementResult processRule(CompilationUnit cu, Element element) {
 		visit(cu,element);
 		
-        return new ElementResult();
+		ElementResult result = new ElementResult();
+		
+		result.setElement(element);
+		
+		result.setResult(false);
+		if(numberOfAppearances > 0) result.setResult(true);
+		
+        return result;
 	}
 
 	@Override
 	protected void visitImpl(MethodCallExpr methodCall, Element arg) {
         
-		//This rule is just an subset of appearsineverymethod ...
+		String nodeName = getNodeName(methodCall);
+    	
+		Boolean itDoesAppear = doesItAppear( nodeName, arg );
+		
+		if(itDoesAppear) {
+			numberOfAppearances++;
+		}
     		
 	}
 

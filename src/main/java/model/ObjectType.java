@@ -1,6 +1,6 @@
 package model;
 
-public enum ClassType {
+public enum ObjectType {
 
 	INTERFACE("interface"),
 	ENUM("enum"),
@@ -9,7 +9,7 @@ public enum ClassType {
 	
 	private String value;
 	
-	ClassType(String value){
+	ObjectType(String value){
 		this.value = value;
 	}
 

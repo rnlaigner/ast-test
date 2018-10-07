@@ -1,13 +1,8 @@
 package identification;
 
-import java.util.List;
-
-import com.github.javaparser.ast.CompilationUnit;
-
-import model.Element;
 import model.InjectionAnnotation;
 
-public abstract class AbstractInjectionIdentificator {
+public abstract class AbstractInjectionIdentificator extends AbstractIdentificator {
 	
 	protected String getInjectAnnotationsRegex(){
 		return InjectionAnnotation.AUTOWIRED.getValue().toString() + "|" + InjectionAnnotation.INJECT.getValue().toString();
@@ -22,7 +17,5 @@ public abstract class AbstractInjectionIdentificator {
 		throw new Exception("Errado!");
 	
 	}
-	
-	public abstract List<Element> identify(CompilationUnit cu);
 
 }

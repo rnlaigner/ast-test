@@ -9,6 +9,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 
+import model.AttributeElement;
 import model.Element;
 
 public class ConstructorInjectionIdentificator extends AbstractInjectionIdentificator {
@@ -39,15 +40,22 @@ public class ConstructorInjectionIdentificator extends AbstractInjectionIdentifi
 				 
 				NodeList<Parameter> parameters = f.getParameters();
 				
-				for (Parameter param : parameters){
+				for (Parameter parameter : parameters){
 					
-					Element elem = new Element();
+					AttributeElement elem = new AttributeElement();
 					
-					//VariableDeclarator variable = f.getVariables().get(0);
+					elem.setType(parameter.getType().asString());
 					
-					//elem.setType(variable.getType().asString());
-					
-					//elem.setClassType(variable.getType().get);
+					try {
+						elem.setClassType( getObjectTypeFromString
+											(parameter.getChildNodes().
+													get(0).
+													getClass().
+													getSimpleName() ) );
+					} catch (Exception e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
 					
 					String annotation = f.getAnnotations()
 												.stream()
@@ -56,7 +64,7 @@ public class ConstructorInjectionIdentificator extends AbstractInjectionIdentifi
 												.collect( Collectors.toList() )
 												.get(0);							
 					
-					//elem.setName(variable.getName().toString());
+					elem.setName(parameter.getName().toString());
 					
 					try {
 						elem.setAnnotation(getInjectionAnnotationFromString(annotation));

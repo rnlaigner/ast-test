@@ -37,4 +37,9 @@ public abstract class AbstractMethodVisitor extends AbstractRule {
     	return element.getName().equals(nodeName);
     }
 	
+	protected String getNodeName(MethodCallExpr methodCall)
+	{
+		return methodCall.getChildNodes().get(0).toString();
+	}
+	
 }
