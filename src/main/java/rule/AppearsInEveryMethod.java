@@ -12,7 +12,7 @@ public class AppearsInEveryMethod extends AbstractMethodVisitor {
 	private Integer numberOfMethods = 0;
 
 	@Override
-	protected ElementResult processRule(CompilationUnit cu, Element element) {
+	public ElementResult processRule(CompilationUnit cu, Element element) {
 		
 		visit(cu,element);
 		

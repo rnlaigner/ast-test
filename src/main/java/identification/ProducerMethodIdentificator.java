@@ -32,22 +32,16 @@ public class ProducerMethodIdentificator extends AbstractIdentificator {
 				MethodElement elem = new MethodElement();
 				
 				List<String> modifiers = new ArrayList<String>();
-				f.getModifiers().stream().forEach( m -> { 
-														modifiers.add( m.asString() ); 
-														} 
-												 );
+				f.getModifiers().stream().forEach( m -> { modifiers.add( m.asString() ); } );
 				 				
 				elem.setModifiers(modifiers);
-				
-				//VariableDeclarator variable = f.getVariables().get(0);
 				
 				elem.setType(f.getType().asString());
 				
 				try {
 					elem.setClassType(getObjectTypeFromString
-							( f.getType().asString() ));
+							( f.getType().getClass().getName() ));
 				} catch (Exception e2) {
-					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 				
@@ -58,7 +52,7 @@ public class ProducerMethodIdentificator extends AbstractIdentificator {
 											.collect( Collectors.toList() )
 											.get(0);							
 				
-				//elem.setName(variable.getName().toString());
+				elem.setName(f.getName().toString());
 				
 				try {
 					elem.setAnnotation(getProducerAnnotationFromString(annotation));

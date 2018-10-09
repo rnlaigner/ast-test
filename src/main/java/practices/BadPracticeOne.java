@@ -9,16 +9,15 @@ import identification.FieldDeclarationInjectionIdentificator;
 import identification.MethodInjectionIdentificator;
 import model.Element;
 import model.ElementResult;
-import rule.IsNonUsedInjection;
+import rule.AppearsInEveryMethod;
 
 public class BadPracticeOne extends AbstractPractice {
 	
-	private IsNonUsedInjection rule;
+	private AppearsInEveryMethod rule;
 
 	public BadPracticeOne(CompilationUnit cu) {
 		super(cu);
-		
-		rule = new IsNonUsedInjection();
+		rule = new AppearsInEveryMethod();
 	}
 
 	@Override

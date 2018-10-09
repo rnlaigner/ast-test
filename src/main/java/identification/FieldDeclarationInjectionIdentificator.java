@@ -43,8 +43,14 @@ public class FieldDeclarationInjectionIdentificator extends AbstractInjectionIde
 				
 				elem.setType(variable.getType().asString());
 				
-				//TODO: set class type
-				//elem.setClassType(variable.getType().get);
+				try {
+					elem.setClassType( getObjectTypeFromString
+										(variable.getType().
+												getClass().
+												getSimpleName() ) );
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
 				
 				String annotation = f.getAnnotations()
 											.stream()

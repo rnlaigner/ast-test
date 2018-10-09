@@ -21,7 +21,7 @@ import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
-import practices.BadPracticeTwo;
+import practices.BadPracticeThree;
 
 /**
  * Some code that uses JavaSymbolSolver.
@@ -93,7 +93,7 @@ public class MyAnalysis extends VoidVisitorAdapter
         
         //BadPracticeOne bdOne = new BadPracticeOne(cu);
         
-        BadPracticeTwo bdTwo = new BadPracticeTwo(cu);
+        BadPracticeThree bdTwo = new BadPracticeThree(cu);
         
         //bdOne.process();
         bdTwo.process();
