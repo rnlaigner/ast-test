@@ -10,6 +10,10 @@ import model.MethodElement;
 
 public class ProducerMethodWithBusinessRule extends AbstractRule {
 	
+	// TODO: fazer o recebimento das classes de negocio
+	// uma vez que um package de classes de negocio seja tomada como input, 
+	// o programa identifica as classes
+	// pertencentes a tal pacote
 	private List<String> businessClasses;
 
 	public ProducerMethodWithBusinessRule(List<String> businessClasses) {

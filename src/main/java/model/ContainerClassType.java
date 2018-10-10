@@ -1,6 +1,6 @@
 package model;
 
-public enum ContainerCall {
+public enum ContainerClassType {
 	
 	SPRING("ApplicationContext","ApplicationContextHolder.getApplicationContext()","getBean"),
 	//Based on https://stackoverflow.com/questions/8166187/can-i-and-how-lookup-cdi-managed-beans-using-javax-naming-contextlookup-in-ej
@@ -10,7 +10,7 @@ public enum ContainerCall {
 	private String containerObtainedBy;
 	private String containerCall;
 	
-	ContainerCall(String className, String containerObtainedBy, String containerCall ) {
+	ContainerClassType(String className, String containerObtainedBy, String containerCall ) {
 		this.className = className;
 		this.containerObtainedBy = containerObtainedBy;
 		this.containerCall = containerCall;

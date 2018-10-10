@@ -21,6 +21,7 @@ import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
+import practices.BadPracticeSeven;
 import practices.BadPracticeThree;
 
 /**
@@ -61,6 +62,12 @@ public class MyAnalysis extends VoidVisitorAdapter
         							+ "business.execute(); "
         							+ "business1.execute(); "
         							+ " } "
+        							+ " "
+        							+ "public ExampleBean containerCall() {"
+        							+ "	ApplicationContext ctx = ApplicationContextHolder.getApplicationContext(); "
+        							+ " return (ExampleBean) ctx.getBean(\" ExampleBean \");"
+        							+ "} "
+        							+ " "
         							+ "@Produces "
         							+ "public AFourthBusiness getProducerMethod() { "
         							+ "	String variab; "
@@ -92,11 +99,12 @@ public class MyAnalysis extends VoidVisitorAdapter
 
         
         //BadPracticeOne bdOne = new BadPracticeOne(cu);
-        
-        BadPracticeThree bdTwo = new BadPracticeThree(cu);
+        //BadPracticeThree bdTwo = new BadPracticeThree(cu);
+        BadPracticeSeven bdSeven = new BadPracticeSeven(cu);
         
         //bdOne.process();
-        bdTwo.process();
+        //bdTwo.process();
+        bdSeven.process();
 
         // Find all the calculations with two sides:
         cu.findAll(AnnotationExpr.class).forEach(be -> {
