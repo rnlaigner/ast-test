@@ -1,33 +1,59 @@
 package rule;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.NameExpr;
 
+import model.ContainerClassType;
 import model.Element;
 import model.ElementResult;
+import model.VariableDeclarationElement;
 
-public class DirectContainerCallRule extends AbstractRule {
+public class DirectContainerCallRule extends AbstractMethodVisitor {
+	
+	Integer containerCallCount = 0;
+	
+	private boolean isContainerCall(String methodCall) {
+		return ContainerClassType.SPRING.getContainerCall().equals(methodCall) || 
+				ContainerClassType.CDI.getContainerCall().equals(methodCall);
+	}
+	
+	private String getMethodCall(MethodCallExpr methodCall) {
+		return methodCall.getName().getIdentifier();
+	}
 
-	public DirectContainerCallRule() {
-		super();
+	@Override
+	protected void visitImpl(MethodCallExpr methodCall, Element arg) {
+		
+		VariableDeclarationElement arg_ = (VariableDeclarationElement) arg;
+		
+		NameExpr nameNode = (NameExpr) methodCall.getScope().get();
+		
+		if(!nameNode.getName().getIdentifier().equals(arg_.getVariableName())) return;
+		
+		String methodCallStr = getMethodCall(methodCall);
+    	
+		Boolean isContainerCall = isContainerCall( methodCallStr );
+		
+		if ( isContainerCall )  containerCallCount++;		
+		
 	}
 
 	@Override
 	public ElementResult processRule(CompilationUnit cu, Element element) {
 		
-		ElementResult elementResult = new ElementResult();
+		visit(cu,element);
 		
-		elementResult.setElement(element);
-		elementResult.setResult(false);
+		ElementResult result = new ElementResult();
 		
-		/* TODO rule
-		if (! element.getClassType().equals(ObjectType.INTERFACE)){
-			elementResult.setResult(true);
-		}
-		*/
+		result.setElement(element);
 		
-		return elementResult;
+		result.setResult(false);
+		
+		if(containerCallCount > 0) result.setResult(true);
+		
+        return result;
+		
 	}
-	
-	
 
 }

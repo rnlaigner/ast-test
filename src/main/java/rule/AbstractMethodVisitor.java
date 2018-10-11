@@ -5,7 +5,6 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import model.Element;
-import model.ElementResult;
 
 public abstract class AbstractMethodVisitor extends AbstractRule {
 	

@@ -11,7 +11,8 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import model.ContainerClassType;
 import model.Element;
-import model.MethodElement;
+import model.ObjectType;
+import model.VariableDeclarationElement;
 
 public class ContainerCallIdentificator extends AbstractIdentificator {
 	
@@ -29,18 +30,23 @@ public class ContainerCallIdentificator extends AbstractIdentificator {
 									a -> a.toString()
 									.matches(getContainerClassTypeRegex()));
 			} )
-			.forEach(f -> { 
+			.forEach(f -> {
 				
-				//TODO criar o tipo variableDeclaration e nao usar o methodelement
-				MethodElement methodElement = new MethodElement();
+				VariableDeclarationElement variableDeclarationElement = new VariableDeclarationElement();
 				
 				Optional<Node> declaration = f.getParentNode();
 				
-				//methodElement.
+				VariableDeclarator declarator = (VariableDeclarator) declaration.get();
 				
-				List<Node> childNodes = f.getChildNodes();
+				variableDeclarationElement.setType(f.getName().asString());
 				
-				elements.add(methodElement);
+				variableDeclarationElement.setClassType(ObjectType.CLASS);
+				
+				variableDeclarationElement.setMethodCall(declarator.getInitializer().toString());
+				
+				variableDeclarationElement.setVariableName(declarator.getName().getIdentifier());
+	
+				elements.add(variableDeclarationElement);
 				
 			} );
 		

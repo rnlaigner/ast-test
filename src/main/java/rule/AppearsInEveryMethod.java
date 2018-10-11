@@ -21,6 +21,7 @@ public class AppearsInEveryMethod extends AbstractMethodVisitor {
 		result.setElement(element);
 		
 		result.setResult(false);
+		
 		if(numberOfAppearances == numberOfMethods) result.setResult(true);
 		
         return result;
@@ -36,9 +37,8 @@ public class AppearsInEveryMethod extends AbstractMethodVisitor {
     	
 		Boolean itDoesAppear = doesItAppear( nodeName, arg );
 		
-		if(itDoesAppear) {
-			numberOfAppearances++;
-		}
+		if (itDoesAppear) numberOfAppearances++;
+		
 	}
 	
 	

@@ -12,6 +12,7 @@ public class IsNonUsedInjection extends AbstractMethodVisitor {
 
 	@Override
 	public ElementResult processRule(CompilationUnit cu, Element element) {
+		
 		visit(cu,element);
 		
 		ElementResult result = new ElementResult();
@@ -19,6 +20,7 @@ public class IsNonUsedInjection extends AbstractMethodVisitor {
 		result.setElement(element);
 		
 		result.setResult(false);
+		
 		if(numberOfAppearances > 0) result.setResult(true);
 		
         return result;
