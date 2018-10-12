@@ -13,7 +13,8 @@ public abstract class AbstractIdentificator {
 	
 	protected ObjectType getObjectTypeFromString(String objectType) throws Exception {
 		
-		if(objectType.equals( ObjectType.CLASS.getValue().toString() )) {
+		// TODO: ver como o ast pode me dar se eh classe ou interface. Por ora, ele diz que eh apenas interface ou classe
+		if(objectType.toLowerCase().contains( ObjectType.CLASS.getValue().toString() )) {
 			return ObjectType.CLASS;
 		}
 		

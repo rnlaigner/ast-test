@@ -15,4 +15,8 @@ public enum ProducerAnnotation {
 		return value;
 	}
 	
+	public static String getProducerAnnotationsRegex(){
+		return ProducerAnnotation.BEAN.getValue().toString() + "|" + ProducerAnnotation.PRODUCES.getValue().toString();
+	}
+	
 }

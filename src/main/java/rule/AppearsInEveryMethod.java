@@ -6,7 +6,7 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import model.Element;
 import model.ElementResult;
 
-public class AppearsInEveryMethod extends AbstractMethodVisitor {
+public class AppearsInEveryMethod extends AbstractMethodCallVisitor {
 
 	private Integer numberOfAppearances = 0;
 	private Integer numberOfMethods = 0;

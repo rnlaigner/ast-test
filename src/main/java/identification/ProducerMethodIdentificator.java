@@ -26,7 +26,7 @@ public class ProducerMethodIdentificator extends AbstractIdentificator {
 						.anyMatch(a -> a
 								.getName()
 								.getIdentifier()
-								.matches(getProducerAnnotationsRegex()));
+								.matches(ProducerAnnotation.getProducerAnnotationsRegex()));
 			} )
 			.forEach(f -> {
 				MethodElement elem = new MethodElement();
@@ -57,7 +57,6 @@ public class ProducerMethodIdentificator extends AbstractIdentificator {
 				try {
 					elem.setAnnotation(getProducerAnnotationFromString(annotation));
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
@@ -80,8 +79,6 @@ public class ProducerMethodIdentificator extends AbstractIdentificator {
 	
 	}
 	
-	protected String getProducerAnnotationsRegex(){
-		return ProducerAnnotation.BEAN.getValue().toString() + "|" + ProducerAnnotation.PRODUCES.getValue().toString();
-	}
+	
 	
 }

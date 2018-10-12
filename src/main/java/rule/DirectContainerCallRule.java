@@ -9,17 +9,13 @@ import model.Element;
 import model.ElementResult;
 import model.VariableDeclarationElement;
 
-public class DirectContainerCallRule extends AbstractMethodVisitor {
+public class DirectContainerCallRule extends AbstractMethodCallVisitor {
 	
 	Integer containerCallCount = 0;
 	
 	private boolean isContainerCall(String methodCall) {
 		return ContainerClassType.SPRING.getContainerCall().equals(methodCall) || 
 				ContainerClassType.CDI.getContainerCall().equals(methodCall);
-	}
-	
-	private String getMethodCall(MethodCallExpr methodCall) {
-		return methodCall.getName().getIdentifier();
 	}
 
 	@Override
@@ -35,7 +31,7 @@ public class DirectContainerCallRule extends AbstractMethodVisitor {
     	
 		Boolean isContainerCall = isContainerCall( methodCallStr );
 		
-		if ( isContainerCall )  containerCallCount++;		
+		if ( isContainerCall ) containerCallCount++;		
 		
 	}
 

@@ -32,7 +32,5 @@ public class ProducerMethodWithBusinessRule extends AbstractRule {
 		
 		return null;
 	}
-	
-	
 
 }

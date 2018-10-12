@@ -6,7 +6,7 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import model.Element;
 import model.ElementResult;
 
-public class IsNonUsedInjection extends AbstractMethodVisitor {
+public class IsNonUsedInjection extends AbstractMethodCallVisitor {
 	
 	Integer numberOfAppearances = 0;
 

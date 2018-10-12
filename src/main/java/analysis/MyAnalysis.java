@@ -21,6 +21,7 @@ import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
+import practices.BadPracticeEight;
 import practices.BadPracticeSeven;
 import practices.BadPracticeThree;
 
@@ -53,15 +54,17 @@ public class MyAnalysis extends VoidVisitorAdapter
         							+ "private ABusiness business; "
         							+ "@Autowired "
         							+ "private AnotherBusiness business1; "
-        							+ "private AThirdBusiness business2;"
+        							+ "private AThirdBusiness business2; "
+        							+ "@Autowired "
+        							+ "private AFifthBusiness business4; "
         							+ "@Autowired "
         							+ "public BusinessExample( AThirdBusiness business2 ){"
-        							+ "	this.business2 = business2;"
+        							+ "	this.business2 = business2; "
         							+ "}"
         							+ "public void execute() { "
-        							+ "business.execute(); "
-        							+ "business1.execute(); "
-        							+ " } "
+        							+ "	business.execute(business4); "
+        							+ "	business1.execute(); "
+        							+ "} "
         							+ " "
         							+ "public ExampleBean containerCall() {"
         							+ "	ApplicationContext ctx = ApplicationContextHolder.getApplicationContext(); "
@@ -72,6 +75,9 @@ public class MyAnalysis extends VoidVisitorAdapter
         							+ "public AFourthBusiness getProducerMethod() { "
         							+ "	String variab; "
         							+ " return new AFourthBusiness(); "
+        							+ "} "
+        							+ "public AFifthBusiness getAFifthBusiness(){"
+        							+ " return business4; "
         							+ "} "
         							+ "}";
         
@@ -100,11 +106,13 @@ public class MyAnalysis extends VoidVisitorAdapter
         
         //BadPracticeOne bdOne = new BadPracticeOne(cu);
         //BadPracticeThree bdTwo = new BadPracticeThree(cu);
-        BadPracticeSeven bdSeven = new BadPracticeSeven(cu);
+        //BadPracticeSeven bdSeven = new BadPracticeSeven(cu);
+        BadPracticeEight bdEight = new BadPracticeEight(cu);
         
         //bdOne.process();
         //bdTwo.process();
-        bdSeven.process();
+        //bdSeven.process();
+        bdEight.process();
 
         // Find all the calculations with two sides:
         cu.findAll(AnnotationExpr.class).forEach(be -> {

@@ -6,21 +6,21 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
 import model.Element;
 
-public abstract class AbstractMethodVisitor extends AbstractRule {
+public abstract class AbstractMethodCallVisitor extends AbstractRule {
 	
-	protected MethodVisitor methodVisitor;
+	protected MethodCallVisitor methodCallVisitor;
 	
-	public AbstractMethodVisitor(){
-		methodVisitor = new MethodVisitor();
+	public AbstractMethodCallVisitor(){
+		methodCallVisitor = new MethodCallVisitor();
 	}
 	
 	protected void visit(CompilationUnit cu, Element element) {
-		methodVisitor.visit(cu, element);
+		methodCallVisitor.visit(cu, element);
 	}
 	
 	protected abstract void visitImpl(MethodCallExpr methodCall, Element arg);
 	
-	private class MethodVisitor extends VoidVisitorAdapter<Element> {
+	private class MethodCallVisitor extends VoidVisitorAdapter<Element> {
 		
 		
 		@Override
@@ -39,6 +39,10 @@ public abstract class AbstractMethodVisitor extends AbstractRule {
 	protected String getNodeName(MethodCallExpr methodCall)
 	{
 		return methodCall.getChildNodes().get(0).toString();
+	}
+	
+	protected String getMethodCall(MethodCallExpr methodCall) {
+		return methodCall.getName().getIdentifier();
 	}
 	
 }
