@@ -29,7 +29,7 @@ public class AppearsInEveryMethod extends AbstractMethodCallVisitor {
 	
 	
 	@Override
-	protected void visitImpl(MethodCallExpr methodCall, Element arg) {
+	protected void visitMethodCallImpl(MethodCallExpr methodCall, Element arg) {
 		
     	String nodeName = getNodeName(methodCall);
 

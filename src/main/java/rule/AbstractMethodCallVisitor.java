@@ -18,7 +18,7 @@ public abstract class AbstractMethodCallVisitor extends AbstractRule {
 		methodCallVisitor.visit(cu, element);
 	}
 	
-	protected abstract void visitImpl(MethodCallExpr methodCall, Element arg);
+	protected abstract void visitMethodCallImpl(MethodCallExpr methodCall, Element arg);
 	
 	private class MethodCallVisitor extends VoidVisitorAdapter<Element> {
 		
@@ -26,7 +26,7 @@ public abstract class AbstractMethodCallVisitor extends AbstractRule {
 		@Override
 	    public void visit(MethodCallExpr methodCall, Element arg)
 	    {
-	        visitImpl(methodCall, arg);
+	        visitMethodCallImpl(methodCall, arg);
 	    }
 		
 	}

@@ -55,7 +55,7 @@ public class UselessInjectionRule extends AbstractMethodCallVisitor {
 	}
 
 	@Override
-	protected void visitImpl(MethodCallExpr methodCall, Element arg) {
+	protected void visitMethodCallImpl(MethodCallExpr methodCall, Element arg) {
 		
 		//identify a method call that pass the element as parameter
 			
@@ -65,19 +65,19 @@ public class UselessInjectionRule extends AbstractMethodCallVisitor {
 		arguments.removeIf(a -> !a.isNameExpr());
 		
 		try {
-		if (arguments
-				.stream()
-				.anyMatch(
-						a -> a
-						.asNameExpr()
-						.getName()
-						.getIdentifier()
-						.equals(arg.getName())
-						)
-			)
-			methodPassing++;		
+			if (arguments
+					.stream()
+					.anyMatch(
+							a -> a
+							.asNameExpr()
+							.getName()
+							.getIdentifier()
+							.equals(arg.getName())
+							)
+				)
+				methodPassing++;		
 		}
-		catch(IllegalStateException e){
+		catch(IllegalStateException e) {
 			System.out.println("some argument is not a nameexpr");
 		}
 	}

@@ -23,6 +23,7 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeS
 
 import practices.BadPracticeEight;
 import practices.BadPracticeSeven;
+import practices.BadPracticeTen;
 import practices.BadPracticeThree;
 
 /**
@@ -50,6 +51,7 @@ public class MyAnalysis extends VoidVisitorAdapter
         //String exampleClass = "class X { int x() { return 1 + 1.0 - 5; } }";
         
         String exampleClass1 = "class BusinessExample { "
+        							+ "@Inject IExample1 one;"
         							+ "@Autowired "
         							+ "private ABusiness business; "
         							+ "@Autowired "
@@ -79,6 +81,9 @@ public class MyAnalysis extends VoidVisitorAdapter
         							+ "public AFifthBusiness getAFifthBusiness(){"
         							+ " return business4; "
         							+ "} "
+        							+ "public void setOne(IExample1 one) { "
+									+ "this.one = one; "
+									+ "} "
         							+ "}";
         
         //ClassOrInterfaceDeclaration classDeclaration = new ClassOrInterfaceDeclaration();
@@ -107,12 +112,14 @@ public class MyAnalysis extends VoidVisitorAdapter
         //BadPracticeOne bdOne = new BadPracticeOne(cu);
         //BadPracticeThree bdTwo = new BadPracticeThree(cu);
         //BadPracticeSeven bdSeven = new BadPracticeSeven(cu);
-        BadPracticeEight bdEight = new BadPracticeEight(cu);
+        //BadPracticeEight bdEight = new BadPracticeEight(cu);
+        BadPracticeTen bdTen = new BadPracticeTen(cu);
         
         //bdOne.process();
         //bdTwo.process();
         //bdSeven.process();
-        bdEight.process();
+        //bdEight.process();
+        bdTen.process();
 
         // Find all the calculations with two sides:
         cu.findAll(AnnotationExpr.class).forEach(be -> {

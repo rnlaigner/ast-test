@@ -19,7 +19,7 @@ public class DirectContainerCallRule extends AbstractMethodCallVisitor {
 	}
 
 	@Override
-	protected void visitImpl(MethodCallExpr methodCall, Element arg) {
+	protected void visitMethodCallImpl(MethodCallExpr methodCall, Element arg) {
 		
 		VariableDeclarationElement arg_ = (VariableDeclarationElement) arg;
 		
