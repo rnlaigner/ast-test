@@ -3,7 +3,6 @@ package rule;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
@@ -12,35 +11,45 @@ import model.Element;
 import model.ElementResult;
 import model.ProducerAnnotation;
 
-public class InjectionOpenedForChange extends AbstractRule {
-	
-	Integer methodLikeSetter = 0;
+public class InjectionAssignedToMoreThanOneAttributeRule extends AbstractRule {
 	
 	/*
-	 * 
-		class H {
-			@Inject IExample1 one;
-			// other declarations
-			public void setOne(IExample1 one) {
-				this.one = one;
-			}
+	 class ExampleBusiness extends GenericBusinessImpl {
+	 
+	    @Inject
+	    Business anotherInjection;
+	    
+	    Business variable;
+	 
+		IDAO exampleDAO;
+		
+		@Inject
+		public void setExampleDAO(ExampleDAO exampleDAO) {
+			this.genericDAO = exampleDAO; //genericDAO is an attribute of GenericBusinessImpl
+			this.exampleDAO = exampleDAO;
 		}
-	 */
+		
+		public void anyMethod() {
+			variable = anotherInjection;
+		}
+		
+	 }
+	*/
+	
+	private Integer attributeAssignment = 0;
 	
 	private MethodDeclarationVisitor methodDeclarationVisitor;
 	
-	public InjectionOpenedForChange() {
+	public InjectionAssignedToMoreThanOneAttributeRule() {
+		super();
 		methodDeclarationVisitor = new MethodDeclarationVisitor();
 	}
-	
+
 	private class MethodDeclarationVisitor extends VoidVisitorAdapter<Element> {
 		
 		@Override
 	    public void visit(MethodDeclaration methodDeclaration, Element element)
-	    {			
-			//it does not matter if it is void or it returns something
-			//String methodType = methodDeclaration.getTypeAsString();
-			
+	    {
 			Boolean containsProducerAnnotation = 
 					methodDeclaration
 					.getAnnotations()
@@ -56,16 +65,6 @@ public class InjectionOpenedForChange extends AbstractRule {
 			
 			if (containsProducerAnnotation) return;
 			
-			NodeList<Parameter> parameters = methodDeclaration.getParameters();
-			
-			if (parameters.size() == 0) return;
-			
-			//verifica se o tipo do elemento esta presente nos parametros
-			if(!parameters.stream().anyMatch(p -> p.getTypeAsString().toString().equals(element.getType()))			) 
-			{
-				return;
-			}
-			
 			NodeList<Statement> statements = methodDeclaration.getBody().get().getStatements();
 			
 			//search body for reassigment of element
@@ -73,16 +72,23 @@ public class InjectionOpenedForChange extends AbstractRule {
 				
 				if (stmt.isExpressionStmt() && stmt.asExpressionStmt().getExpression().isAssignExpr()){
 					AssignExpr expr = stmt.asExpressionStmt().getExpression().asAssignExpr();
-					String target = expr.getTarget().toString();
+					//String target = expr.getTarget().toString();
+					String value = expr.getValue().toString();
+					/*
 					if (target.contains("this.")){
 						target = target.substring(target.indexOf("this."),target.length());
 					}
-					if(target.equals(element.getName())){
-						methodLikeSetter++;
+					*/
+					if (value.contains("this.")){
+						value = value.substring(value.indexOf("this."),value.length());
+					}
+					if(value.equals(element.getName())){
+						attributeAssignment++;
 					}
 				}
 				
 			}
+			
 	    }
 		
 	}
@@ -90,7 +96,8 @@ public class InjectionOpenedForChange extends AbstractRule {
 	@Override
 	public ElementResult processRule(CompilationUnit cu, Element element) {
 		
-		methodDeclarationVisitor.visit(cu,element);
+		//iterate through method declarations
+		methodDeclarationVisitor.visit(cu, element);
 		
 		ElementResult result = new ElementResult();
 		
@@ -98,13 +105,10 @@ public class InjectionOpenedForChange extends AbstractRule {
 		
 		result.setResult(false);
 		
-		Boolean isPublic = element.getModifiers().stream().anyMatch(m -> m.equals("public"));
-		
-		if(methodLikeSetter > 0 || isPublic) result.setResult(true);
+		if (attributeAssignment > 1) result.setResult(true);
 		
         return result;
+		
 	}
-
-
 
 }

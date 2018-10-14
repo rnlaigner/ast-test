@@ -22,6 +22,7 @@ import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSol
 import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
 import practices.BadPracticeEight;
+import practices.BadPracticeEleven;
 import practices.BadPracticeSeven;
 import practices.BadPracticeTen;
 import practices.BadPracticeThree;
@@ -51,6 +52,13 @@ public class MyAnalysis extends VoidVisitorAdapter
         //String exampleClass = "class X { int x() { return 1 + 1.0 - 5; } }";
         
         String exampleClass1 = "class BusinessExample { "
+        							+ "private IDAO exampleDAO; "
+        							+ "private IDAO genericDAO; "
+        							+ "@Inject "
+									+ "public void setExampleDAO(ExampleDAO exampleDAO) { "
+									+ "this.genericDAO = exampleDAO; "
+									+ "this.exampleDAO = exampleDAO; "
+									+ "} "
         							+ "@Inject IExample1 one;"
         							+ "@Autowired "
         							+ "private ABusiness business; "
@@ -84,7 +92,7 @@ public class MyAnalysis extends VoidVisitorAdapter
         							+ "public void setOne(IExample1 one) { "
 									+ "this.one = one; "
 									+ "} "
-        							+ "}";
+        							+ "} ";
         
         //ClassOrInterfaceDeclaration classDeclaration = new ClassOrInterfaceDeclaration();
         
@@ -113,13 +121,15 @@ public class MyAnalysis extends VoidVisitorAdapter
         //BadPracticeThree bdTwo = new BadPracticeThree(cu);
         //BadPracticeSeven bdSeven = new BadPracticeSeven(cu);
         //BadPracticeEight bdEight = new BadPracticeEight(cu);
-        BadPracticeTen bdTen = new BadPracticeTen(cu);
+        //BadPracticeTen bdTen = new BadPracticeTen(cu);
+        BadPracticeEleven bdEleven = new BadPracticeEleven(cu);
         
         //bdOne.process();
         //bdTwo.process();
         //bdSeven.process();
         //bdEight.process();
-        bdTen.process();
+        //bdTen.process();
+        bdEleven.process();
 
         // Find all the calculations with two sides:
         cu.findAll(AnnotationExpr.class).forEach(be -> {
