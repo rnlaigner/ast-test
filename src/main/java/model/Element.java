@@ -5,9 +5,14 @@ import java.util.List;
 public abstract class Element {
 	
 	private List<String> modifiers;
+	
 	private ObjectType classType;
+	
 	private String type;
+	
 	private String name;
+	
+	private InjectionType injectionType;
 	
 	public List<String> getModifiers() {
 		return modifiers;
@@ -38,6 +43,14 @@ public abstract class Element {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public InjectionType getInjectionType() {
+		return injectionType;
+	}
+
+	public void setInjectionType(InjectionType injectionType) {
+		this.injectionType = injectionType;
 	}
 	
 }

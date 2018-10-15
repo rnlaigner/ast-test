@@ -11,16 +11,16 @@ import identification.MethodInjectionIdentificator;
 import model.Element;
 import model.ElementResult;
 import rule.AppearsInEveryMethod;
-import rule.DirectContainerCallRule;
-import rule.ReferenceOnConcreteClassRule;
+import rule.DirectContainerCall;
+import rule.ReferenceOnConcreteClass;
 
 public class BadPracticeSeven extends AbstractPractice {
 	
-	private DirectContainerCallRule rule;
+	private DirectContainerCall rule;
 
 	public BadPracticeSeven(CompilationUnit cu) {
 		super(cu);
-		rule = new DirectContainerCallRule();
+		rule = new DirectContainerCall();
 	}
 
 	@Override

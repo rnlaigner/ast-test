@@ -27,7 +27,11 @@ public class ConstructorInjectionIdentificator extends AbstractMethodInjectionId
 			} )
 			.forEach(f -> {
 				 
-				elements.addAll(identifyFromParameters(f));
+				try {
+					elements.addAll(identifyFromParameters(f));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
 			}
 		);

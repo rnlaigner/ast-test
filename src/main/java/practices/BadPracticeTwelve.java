@@ -9,22 +9,24 @@ import identification.FieldDeclarationInjectionIdentificator;
 import identification.MethodInjectionIdentificator;
 import model.Element;
 import model.ElementResult;
-import rule.AppearsInEveryMethod;
-import rule.ReferenceOnConcreteClass;
+import rule.InjectionAssignedToMoreThanOneAttribute;
 
-public class BadPracticeTwo extends AbstractPractice {
+public class BadPracticeTwelve extends AbstractPractice {
 	
-	private ReferenceOnConcreteClass rule;
+	private InjectionAssignedToMoreThanOneAttribute rule;
 
-	public BadPracticeTwo(CompilationUnit cu) {
+	public BadPracticeTwelve(CompilationUnit cu) {
 		super(cu);
-		rule = new ReferenceOnConcreteClass();
+		rule = new InjectionAssignedToMoreThanOneAttribute();
 	}
 
 	@Override
 	public void process() {
 		
-		/* identifica elementos que bad practice pode se aplicar */
+        /*
+         * TODO should I consider?
+         * ContainerCallIdentificator contId = new ContainerCallIdentificator();
+         */
         FieldDeclarationInjectionIdentificator fieldId = new FieldDeclarationInjectionIdentificator();
         ConstructorInjectionIdentificator constructorId = new ConstructorInjectionIdentificator();
         MethodInjectionIdentificator methodId = new MethodInjectionIdentificator();
@@ -39,11 +41,7 @@ public class BadPracticeTwo extends AbstractPractice {
         	
         	
         }
-        
-        
 		
 	}
-	
-	
 
 }

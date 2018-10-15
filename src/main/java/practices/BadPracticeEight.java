@@ -9,15 +9,15 @@ import identification.FieldDeclarationInjectionIdentificator;
 import identification.MethodInjectionIdentificator;
 import model.Element;
 import model.ElementResult;
-import rule.UselessInjectionRule;
+import rule.UselessInjection;
 
 public class BadPracticeEight extends AbstractPractice {
 	
-	private UselessInjectionRule rule;
+	private UselessInjection rule;
 
 	public BadPracticeEight(CompilationUnit cu) {
 		super(cu);
-		rule = new UselessInjectionRule();
+		rule = new UselessInjection();
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import model.Element;
 import model.ElementResult;
 import model.ProducerAnnotation;
 
-public class UselessInjectionRule extends AbstractMethodCallVisitor {
+public class UselessInjection extends AbstractMethodCallVisitor {
 	
 	private Integer methodOpening = 0;
 	
@@ -19,7 +19,7 @@ public class UselessInjectionRule extends AbstractMethodCallVisitor {
 	
 	private MethodDeclarationVisitor methodDeclarationVisitor;
 	
-	public UselessInjectionRule() {
+	public UselessInjection() {
 		super();
 		methodDeclarationVisitor = new MethodDeclarationVisitor();
 	}

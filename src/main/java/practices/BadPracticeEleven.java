@@ -9,15 +9,15 @@ import identification.FieldDeclarationInjectionIdentificator;
 import identification.MethodInjectionIdentificator;
 import model.Element;
 import model.ElementResult;
-import rule.InjectionAssignedToMoreThanOneAttributeRule;
+import rule.InjectionAssignedToMoreThanOneAttribute;
 
 public class BadPracticeEleven extends AbstractPractice {
 	
-	private InjectionAssignedToMoreThanOneAttributeRule rule;
+	private InjectionAssignedToMoreThanOneAttribute rule;
 
 	public BadPracticeEleven(CompilationUnit cu) {
 		super(cu);
-		rule = new InjectionAssignedToMoreThanOneAttributeRule();
+		rule = new InjectionAssignedToMoreThanOneAttribute();
 	}
 
 	@Override

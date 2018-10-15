@@ -32,10 +32,7 @@ public class FieldDeclarationInjectionIdentificator extends AbstractInjectionIde
 				AttributeElement elem = new AttributeElement();
 				
 				List<String> modifiers = new ArrayList<String>();
-				f.getModifiers().stream().forEach( m -> { 
-														modifiers.add( m.asString() ); 
-														} 
-												 );
+				f.getModifiers().stream().forEach( m -> { modifiers.add( m.asString() ); } );
 				 				
 				elem.setModifiers(modifiers);
 				
@@ -64,15 +61,13 @@ public class FieldDeclarationInjectionIdentificator extends AbstractInjectionIde
 				try {
 					elem.setAnnotation(getInjectionAnnotationFromString(annotation));
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
 				elements.add( elem );
 			}
 		);
-		
-		
+
 		return elements;
 		
 	}

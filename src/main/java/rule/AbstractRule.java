@@ -27,6 +27,6 @@ public abstract class AbstractRule {
 		this.description = description;
 	}
 	
-	protected abstract ElementResult processRule(CompilationUnit cu, Element element);
+	protected abstract ElementResult processRule(CompilationUnit cu, Element element) throws Exception;
 	
 }

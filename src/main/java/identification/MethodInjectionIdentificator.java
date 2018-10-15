@@ -27,7 +27,11 @@ public class MethodInjectionIdentificator extends AbstractMethodInjectionIdentif
 			} )
 			.forEach(f -> {
 				
-				elements.addAll(identifyFromParameters(f));
+				try {
+					elements.addAll(identifyFromParameters(f));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
 			}
 		);

@@ -6,9 +6,9 @@ import model.Element;
 import model.ElementResult;
 import model.ObjectType;
 
-public class ReferenceOnConcreteClassRule extends AbstractRule {
+public class ReferenceOnConcreteClass extends AbstractRule {
 
-	public ReferenceOnConcreteClassRule() {
+	public ReferenceOnConcreteClass() {
 		super();
 	}
 

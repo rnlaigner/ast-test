@@ -3,15 +3,15 @@ package practices;
 import com.github.javaparser.ast.CompilationUnit;
 
 import model.ElementResult;
-import rule.GodDependencyInjectionClassRule;
+import rule.GodDependencyInjectionClass;
 
 public class BadPracticeFour extends AbstractPractice {
 	
-	private GodDependencyInjectionClassRule rule;
+	private GodDependencyInjectionClass rule;
 
 	public BadPracticeFour(CompilationUnit cu) {
 		super(cu);
-		rule = new GodDependencyInjectionClassRule();
+		rule = new GodDependencyInjectionClass();
 	}
 
 	@Override

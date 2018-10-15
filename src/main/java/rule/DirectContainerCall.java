@@ -9,7 +9,7 @@ import model.Element;
 import model.ElementResult;
 import model.VariableDeclarationElement;
 
-public class DirectContainerCallRule extends AbstractMethodCallVisitor {
+public class DirectContainerCall extends AbstractMethodCallVisitor {
 	
 	Integer containerCallCount = 0;
 	

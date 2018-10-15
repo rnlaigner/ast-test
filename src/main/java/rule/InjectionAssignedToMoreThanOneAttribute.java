@@ -1,5 +1,7 @@
 package rule;
 
+import java.util.List;
+
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -7,11 +9,12 @@ import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+import model.AssignmentBusiness;
 import model.Element;
 import model.ElementResult;
 import model.ProducerAnnotation;
 
-public class InjectionAssignedToMoreThanOneAttributeRule extends AbstractRule {
+public class InjectionAssignedToMoreThanOneAttribute extends AbstractRule {
 	
 	/*
 	 class ExampleBusiness extends GenericBusinessImpl {
@@ -40,7 +43,7 @@ public class InjectionAssignedToMoreThanOneAttributeRule extends AbstractRule {
 	
 	private MethodDeclarationVisitor methodDeclarationVisitor;
 	
-	public InjectionAssignedToMoreThanOneAttributeRule() {
+	public InjectionAssignedToMoreThanOneAttribute() {
 		super();
 		methodDeclarationVisitor = new MethodDeclarationVisitor();
 	}
@@ -68,25 +71,16 @@ public class InjectionAssignedToMoreThanOneAttributeRule extends AbstractRule {
 			NodeList<Statement> statements = methodDeclaration.getBody().get().getStatements();
 			
 			//search body for reassigment of element
-			for(Statement stmt : statements){
-				
-				if (stmt.isExpressionStmt() && stmt.asExpressionStmt().getExpression().isAssignExpr()){
-					AssignExpr expr = stmt.asExpressionStmt().getExpression().asAssignExpr();
-					//String target = expr.getTarget().toString();
-					String value = expr.getValue().toString();
-					/*
-					if (target.contains("this.")){
-						target = target.substring(target.indexOf("this."),target.length());
-					}
-					*/
-					if (value.contains("this.")){
-						value = value.substring(value.indexOf("this."),value.length());
-					}
-					if(value.equals(element.getName())){
-						attributeAssignment++;
-					}
+			List<AssignExpr> list = AssignmentBusiness.getAssignmentsFromStatements(statements);
+			
+			for(AssignExpr expr : list){
+				String value = expr.getValue().toString();
+				if (value.contains("this.")){
+					value = value.substring(value.indexOf("this."),value.length());
 				}
-				
+				if(value.equals(element.getName())){
+					attributeAssignment++;
+				}
 			}
 			
 	    }
@@ -97,7 +91,7 @@ public class InjectionAssignedToMoreThanOneAttributeRule extends AbstractRule {
 	public ElementResult processRule(CompilationUnit cu, Element element) {
 		
 		//iterate through method declarations
-		methodDeclarationVisitor.visit(cu, element);
+		methodDeclarationVisitor.visit(cu, element);		
 		
 		ElementResult result = new ElementResult();
 		

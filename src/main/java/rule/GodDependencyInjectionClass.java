@@ -5,9 +5,9 @@ import com.github.javaparser.ast.CompilationUnit;
 import model.Element;
 import model.ElementResult;
 
-public class GodDependencyInjectionClassRule extends AbstractRule {
+public class GodDependencyInjectionClass extends AbstractRule {
 
-	public GodDependencyInjectionClassRule() {
+	public GodDependencyInjectionClass() {
 		super();
 	}
 
