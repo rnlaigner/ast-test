@@ -9,6 +9,7 @@ import identification.FieldDeclarationInjectionIdentificator;
 import identification.MethodInjectionIdentificator;
 import model.Element;
 import model.ElementResult;
+import model.InjectionType;
 import rule.UselessInjection;
 
 public class BadPracticeEight extends AbstractPractice {

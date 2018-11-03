@@ -4,7 +4,9 @@ public enum InjectionType {
 
 	CONSTRUCTOR("constructor"),
 	METHOD("method"),
-	ATTRIBUTE("attribute");
+	SET_METHOD("set_method"),
+	CONTAINER("container"),
+	FIELD("attribute");
 	
 	private String value;
 	

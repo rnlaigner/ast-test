@@ -17,7 +17,7 @@ public class IsNonUsedInjection extends AbstractMethodCallVisitor {
 		
 		ElementResult result = new ElementResult();
 		
-		result.setElement(element);
+		result.addElement(element);
 		
 		result.setResult(false);
 		
@@ -27,11 +27,11 @@ public class IsNonUsedInjection extends AbstractMethodCallVisitor {
 	}
 
 	@Override
-	protected void visitMethodCallImpl(MethodCallExpr methodCall, Element arg) {
+	protected void visitMethodCallImpl(MethodCallExpr methodCall, Element element) {
         
 		String nodeName = getNodeName(methodCall);
     	
-		Boolean itDoesAppear = doesItAppear( nodeName, arg );
+		Boolean itDoesAppear = doesItAppear( nodeName, element );
 		
 		if(itDoesAppear) {
 			numberOfAppearances++;

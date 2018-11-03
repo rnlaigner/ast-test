@@ -1,9 +1,14 @@
 package identification;
 
 import model.InjectionAnnotation;
+import model.InjectionType;
 
 public abstract class AbstractInjectionIdentificator extends AbstractIdentificator {
 	
+	public AbstractInjectionIdentificator(InjectionType injectionType) {
+		super(injectionType);
+	}
+
 	protected String getInjectAnnotationsRegex(){
 		return InjectionAnnotation.AUTOWIRED.getValue().toString() + "|" + InjectionAnnotation.INJECT.getValue().toString();
 	}

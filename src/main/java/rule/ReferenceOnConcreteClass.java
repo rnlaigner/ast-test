@@ -17,7 +17,7 @@ public class ReferenceOnConcreteClass extends AbstractRule {
 		
 		ElementResult elementResult = new ElementResult();
 		
-		elementResult.setElement(element);
+		elementResult.addElement(element);
 		elementResult.setResult(false);
 		
 		if (! element.getClassType().equals(ObjectType.INTERFACE)){

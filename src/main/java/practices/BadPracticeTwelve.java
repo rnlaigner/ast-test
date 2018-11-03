@@ -9,15 +9,15 @@ import identification.FieldDeclarationInjectionIdentificator;
 import identification.MethodInjectionIdentificator;
 import model.Element;
 import model.ElementResult;
-import rule.InjectionAssignedToMoreThanOneAttribute;
+import rule.MultipleFormOfInjection;
 
 public class BadPracticeTwelve extends AbstractPractice {
 	
-	private InjectionAssignedToMoreThanOneAttribute rule;
+	private MultipleFormOfInjection rule;
 
 	public BadPracticeTwelve(CompilationUnit cu) {
 		super(cu);
-		rule = new InjectionAssignedToMoreThanOneAttribute();
+		rule = new MultipleFormOfInjection();
 	}
 
 	@Override
@@ -35,12 +35,7 @@ public class BadPracticeTwelve extends AbstractPractice {
         elements.addAll(constructorId.identify(cu));
         elements.addAll(methodId.identify(cu));
         
-        for (Element elem : elements) {
-        	ElementResult result = rule.processRule(cu, elem);
-        	
-        	
-        	
-        }
+        List<ElementResult> results = rule.processRule(cu, elements);
 		
 	}
 

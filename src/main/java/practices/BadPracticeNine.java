@@ -7,33 +7,41 @@ import com.github.javaparser.ast.CompilationUnit;
 import identification.ConstructorInjectionIdentificator;
 import identification.FieldDeclarationInjectionIdentificator;
 import identification.MethodInjectionIdentificator;
-import identification.SetMethodInjectionIdentificator;
 import model.Element;
 import model.ElementResult;
-import rule.GodDependencyInjectionClass;
+import rule.UselessInjection;
 
-public class BadPracticeFour extends AbstractPractice {
+public class BadPracticeNine extends AbstractPractice {
 	
-	private GodDependencyInjectionClass rule;
+	private UselessInjection rule;
 
-	public BadPracticeFour(CompilationUnit cu) {
+	public BadPracticeNine(CompilationUnit cu) {
 		super(cu);
-		rule = new GodDependencyInjectionClass();
+		rule = new UselessInjection();
 	}
 
 	@Override
-	public void process() {       
+	public void process() {
 		
-		/* identifica elementos que bad practice pode se aplicar */
+        /*
+         * TODO should I consider?
+         * ContainerCallIdentificator contId = new ContainerCallIdentificator();
+         */
         FieldDeclarationInjectionIdentificator fieldId = new FieldDeclarationInjectionIdentificator();
         ConstructorInjectionIdentificator constructorId = new ConstructorInjectionIdentificator();
-        SetMethodInjectionIdentificator setMethodId = new SetMethodInjectionIdentificator();
+        MethodInjectionIdentificator methodId = new MethodInjectionIdentificator();
         
         List<Element> elements = fieldId.identify(cu);
         elements.addAll(constructorId.identify(cu));
-        elements.addAll(setMethodId.identify(cu));
+        elements.addAll(methodId.identify(cu));
+        
+        for (Element elem : elements) {
+        	ElementResult result = rule.processRule(cu, elem);
+        	
+        	
+        	
+        }
 		
-		ElementResult result = rule.processRule(cu, elements);
 	}
 
 }

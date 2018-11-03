@@ -94,7 +94,7 @@ public class InjectionOpenedForChange extends AbstractRule {
 		
 		ElementResult result = new ElementResult();
 		
-		result.setElement(element);
+		result.addElement(element);
 		
 		result.setResult(false);
 		

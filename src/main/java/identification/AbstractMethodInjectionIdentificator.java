@@ -15,11 +15,16 @@ import com.github.javaparser.ast.stmt.Statement;
 import model.AssignmentBusiness;
 import model.AttributeElement;
 import model.Element;
+import model.InjectionType;
 /*
  * It serves Constructor and Method injection identifier
  */
 public abstract class AbstractMethodInjectionIdentificator extends AbstractInjectionIdentificator {
 	
+	public AbstractMethodInjectionIdentificator(InjectionType injectionType) {
+		super(injectionType);
+	}
+
 	protected List<Element> identifyFromParameters( CallableDeclaration<?> f ) throws Exception {
 		
 		List<Element> elements = new ArrayList<Element>();
@@ -72,6 +77,7 @@ public abstract class AbstractMethodInjectionIdentificator extends AbstractInjec
 					e1.printStackTrace();
 				}
 				
+				elem.setInjectionType(getInjectionType());
 				elem.setName(assignment.getTarget().toString());
 				
 				elements.add( elem );
@@ -93,6 +99,10 @@ public abstract class AbstractMethodInjectionIdentificator extends AbstractInjec
 		
 		throw new Exception("Tipo nao reconhecido");
 		
+	}
+	
+	protected boolean isSetMethod(MethodDeclaration f){
+		return f.getName().getIdentifier().startsWith("set");
 	}
 
 }

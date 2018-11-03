@@ -13,6 +13,10 @@ import model.ProducerAnnotation;
 
 public class ProducerMethodIdentificator extends AbstractIdentificator {
 
+	public ProducerMethodIdentificator() {
+		super(null);
+	}
+
 	@Override
 	public List<Element> identify(CompilationUnit cu) {
 

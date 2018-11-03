@@ -1,10 +1,12 @@
 package model;
 
+import java.util.List;
+
 public class ElementResult {
 	
 	private boolean result;
 	
-	private Element element;
+	private List<Element> elements;
 
 	public boolean getResult() {
 		return result;
@@ -15,11 +17,14 @@ public class ElementResult {
 	}
 
 	public Element getElement() {
-		return element;
+		if (elements.size() == 1){
+			return elements.get(0);
+		}
+		return null;
 	}
 
-	public void setElement(Element element) {
-		this.element = element;
+	public void addElement(Element element) {
+		this.elements.add( element );
 	}
 
 }

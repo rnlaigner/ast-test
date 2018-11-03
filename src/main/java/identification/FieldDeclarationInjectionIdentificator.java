@@ -10,9 +10,14 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 
 import model.AttributeElement;
 import model.Element;
+import model.InjectionType;
 
 public class FieldDeclarationInjectionIdentificator extends AbstractInjectionIdentificator {
 	
+	public FieldDeclarationInjectionIdentificator() {
+		super(InjectionType.FIELD);
+	}
+
 	@Override
 	public List<Element> identify(CompilationUnit cu){
 		

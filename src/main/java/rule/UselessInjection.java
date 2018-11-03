@@ -93,7 +93,7 @@ public class UselessInjection extends AbstractMethodCallVisitor {
 		
 		ElementResult result = new ElementResult();
 		
-		result.setElement(element);
+		result.addElement(element);
 		
 		result.setResult(false);
 		

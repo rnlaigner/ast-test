@@ -5,9 +5,16 @@ import java.util.List;
 import com.github.javaparser.ast.CompilationUnit;
 
 import model.Element;
+import model.InjectionType;
 import model.ObjectType;
 
 public abstract class AbstractIdentificator {
+	
+	private InjectionType injectionType;
+	
+	public AbstractIdentificator(InjectionType injectionType){
+		this.injectionType = injectionType;
+	}
 	
 	public abstract List<Element> identify(CompilationUnit cu);
 	
@@ -24,6 +31,10 @@ public abstract class AbstractIdentificator {
 		
 		throw new Exception("Errado");
 		
+	}
+
+	public InjectionType getInjectionType() {
+		return injectionType;
 	}
 
 }

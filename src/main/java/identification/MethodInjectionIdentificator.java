@@ -7,9 +7,14 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
 import model.Element;
+import model.InjectionType;
 
 public class MethodInjectionIdentificator extends AbstractMethodInjectionIdentificator {
-	
+
+	public MethodInjectionIdentificator() {
+		super(InjectionType.METHOD);
+	}
+
 	@Override
 	public List<Element> identify(CompilationUnit cu){
 		
@@ -24,6 +29,10 @@ public class MethodInjectionIdentificator extends AbstractMethodInjectionIdentif
 								.getName()
 								.getIdentifier()
 								.matches(getInjectAnnotationsRegex()));
+			} )
+			//esse filtro garante que nao sejam metodos set
+			.filter(f -> { 
+				return !isSetMethod(f);
 			} )
 			.forEach(f -> {
 				

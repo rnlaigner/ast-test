@@ -1,5 +1,6 @@
 package rule;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ public class MultipleFormOfInjection extends AbstractRule {
 	
 	public List<ElementResult> processRule(CompilationUnit cu, List<Element> elements) {
 				
+		List<ElementResult> results = new ArrayList<ElementResult>();
+		
 		//busco por elementos repetidos
 		
 		Map<String,Integer> elementCountMap = new HashMap<String,Integer>();
@@ -31,7 +34,12 @@ public class MultipleFormOfInjection extends AbstractRule {
 			    // Okay, there's a key but the value is null
 				int value = elementCountMap.get(key);
 				
-				//TODO adiciona a lista para retorno ja aqui para evitar ter que iterar pelo map depois
+				//valor um apenas uma vez
+				if(value == 1){
+					ElementResult result = new ElementResult();
+					result.addElement(element);
+					results.add(result);
+				}
 				
 				value++;
 				elementCountMap.put(key, value);
@@ -43,26 +51,7 @@ public class MultipleFormOfInjection extends AbstractRule {
 			
 		}
 		
-		//itero pelo map buscando elementos com mais de uma forma de injecao
-		/*
-		for (Map.Entry<String, Integer> entry : elementCountMap.entrySet())
-		{
-		    int count = entry.getValue();
-		    
-	    	ElementResult result = new ElementResult();
-	    	
-	    	Element element = new Element();
-	    	element.setName(entry.getKey());
-			
-			result.setElement(element);
-			
-			result.setResult(false);
-	    
-			if(count > 1) result.setResult(true);
-		}
-		*/
-		
-        return null;
+        return results;
 	}
 
 }

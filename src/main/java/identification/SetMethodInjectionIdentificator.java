@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 import model.Element;
 import model.InjectionType;
 
-public class ConstructorInjectionIdentificator extends AbstractMethodInjectionIdentificator {
-	
-	public ConstructorInjectionIdentificator() {
-		super(InjectionType.CONSTRUCTOR);
+//TODO opportunity for abstraction with MethodInjectionIdentificator
+public class SetMethodInjectionIdentificator extends AbstractMethodInjectionIdentificator {
+
+	public SetMethodInjectionIdentificator() {
+		super(InjectionType.SET_METHOD);
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class ConstructorInjectionIdentificator extends AbstractMethodInjectionId
 		
 		List<Element> elements = new ArrayList<Element>();
 		
-		cu.findAll(ConstructorDeclaration.class).stream()
+		cu.findAll(MethodDeclaration.class).stream()
 			.filter(f -> { 
 				return 
 						f.getAnnotations()
@@ -30,8 +31,12 @@ public class ConstructorInjectionIdentificator extends AbstractMethodInjectionId
 								.getIdentifier()
 								.matches(getInjectAnnotationsRegex()));
 			} )
+			//esse filtro garante que nao sejam metodos set
+			.filter(f -> { 
+				return isSetMethod(f);
+			} )
 			.forEach(f -> {
-				 
+				
 				try {
 					elements.addAll(identifyFromParameters(f));
 				} catch (Exception e) {
@@ -40,6 +45,7 @@ public class ConstructorInjectionIdentificator extends AbstractMethodInjectionId
 				
 			}
 		);
+		
 		
 		return elements;
 		

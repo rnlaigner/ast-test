@@ -11,11 +11,16 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import model.ContainerClassType;
 import model.Element;
+import model.InjectionType;
 import model.ObjectType;
 import model.VariableDeclarationElement;
 
 public class ContainerCallIdentificator extends AbstractIdentificator {
 	
+	public ContainerCallIdentificator() {
+		super(InjectionType.CONTAINER);
+	}
+
 	@Override
 	public List<Element> identify(CompilationUnit cu){
 		
